@@ -297,11 +297,23 @@ QString MediaControl::FormatSeconds(float totalSeconds)
 
 	QString text;
 	if (hours > 0) {
-		text.sprintf("%02d:%02d:%02d", hours, minutes, wholeSeconds);
+		#if QT_VERSION >= 0x050600
+			text = QString::asprintf("%02d:%02d:%02d", hours, minutes, wholeSeconds);
+		#else
+			text.sprintf("%02d:%02d:%02d", hours, minutes, wholeSeconds);
+		#endif
 	} else if (showTimeDecimals) {
-		text.sprintf("%02d:%05.2f", minutes, seconds);
+		#if QT_VERSION >= 0x050600
+			text = QString::asprintf("%02d:%05.2f", minutes, seconds);
+		#else
+			text.sprintf("%02d:%05.2f", minutes, seconds);
+		#endif
 	} else {
-		text.sprintf("%02d:%02d", minutes, wholeSeconds);
+		#if QT_VERSION >= 0x050600
+			text = QString::asprintf("%02d:%02d", minutes, wholeSeconds);
+		#else
+			text.sprintf("%02d:%02d", minutes, wholeSeconds);
+		#endif
 	}
 	return text;
 }
