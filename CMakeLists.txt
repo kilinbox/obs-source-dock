@@ -3,6 +3,12 @@ set(PROJECT_FULL_NAME "Source Dock")
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_SOURCE_DIR}/version.h)
 
+set(CMAKE_PREFIX_PATH "${QTDIR}")
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+find_qt(COMPONENTS Widgets)
+
 set(source-dock_HEADERS
 	source-dock.hpp
 	source-dock-settings.hpp
@@ -42,8 +48,10 @@ add_library(source-dock MODULE
 
 target_link_libraries(source-dock
 		obs-frontend-api
-		Qt5::Widgets
+		Qt::Widgets
 		libobs)
 
 set_target_properties(source-dock PROPERTIES FOLDER "plugins/exeldro")
 install_obs_plugin_with_data(source-dock data)
+setup_plugin_target(source-dock)
+setup_target_resources(source-dock "obs-plugins/source-dock")
